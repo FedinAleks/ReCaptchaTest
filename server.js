@@ -6,11 +6,13 @@ const cors = require('cors');
 const app = express();
 const port = 3000;
 
-// Middleware
-app.use(cors()); // Додайте це для дозволу запитів з інших доменів
+// Налаштування для CORS
+app.use(cors());
+
+// Налаштування для обробки URL-кодованих даних
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Замість 'ваш_секретний_ключ' вставте ваш реальний секретний ключ
+// Замініть 'ваш_секретний_ключ' на реальний секретний ключ
 const secretKey = '6LdzRB0qAAAAAGQdrqjHzM6rtnl4wvoiSlhZXq7G';
 
 // Endpoint для перевірки reCAPTCHA

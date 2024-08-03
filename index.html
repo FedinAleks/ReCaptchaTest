@@ -1,42 +1,43 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>reCAPTCHA v3 Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>reCAPTCHA Test</title>
     <script src="https://www.google.com/recaptcha/api.js?render=6LdzRB0qAAAAAM96DU7ZCwdF9NBSzip1gBR9dgJa"></script>
-
 </head>
 <body>
     <form id="yourForm">
-        <!-- Ваші поля форми -->
-        <input type="submit" value="Submit">
+        <button type="submit">Submit</button>
     </form>
 
     <script>
         grecaptcha.ready(function() {
-        document.getElementById('yourForm').addEventListener('submit', function(event) {
-            event.preventDefault();
+            document.getElementById('yourForm').addEventListener('submit', function(event) {
+                event.preventDefault(); // Запобігає стандартному відправленню форми
 
-            grecaptcha.execute('6LdzRB0qAAAAAM96DU7ZCwdF9NBSzip1gBR9dgJa', { action: 'submit' }).then(function(token) {
-                fetch('https://fedinaleks.github.io/ReCaptchaTest/verify', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: new URLSearchParams({
-                        recaptcha_response: token
+                grecaptcha.execute('6LdzRB0qAAAAAM96DU7ZCwdF9NBSzip1gBR9dgJa', { action: 'submit' }).then(function(token) {
+                    fetch('https://fedinaleks.github.io/ReCaptchaTest/verify', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: new URLSearchParams({
+                            recaptcha_response: token
+                        })
                     })
-                })
-                .then(response => response.text())
-                .then(text => console.log(text))
-                .catch(error => console.error('Error:', error));
+                    .then(response => response.text())
+                    .then(text => {
+                        console.log('Server response:', text);
+                        alert('reCAPTCHA validation successful.');
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('reCAPTCHA validation failed.');
+                    });
+                });
             });
         });
-    });
-
     </script>
 </body>
 </html>
-
-
-
